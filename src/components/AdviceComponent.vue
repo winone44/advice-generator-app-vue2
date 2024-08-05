@@ -10,12 +10,12 @@
     <div class="pattern-divider">
       <picture>
         <source media="(max-width: 413px)" srcset="/img/pattern-divider-mobile.svg">
-        <img src="/img/pattern-divider-desktop.svg" alt="Responsive Image">
+        <img :src="CDN('/img/pattern-divider-desktop.svg')" alt="Responsive Image">
       </picture>
     </div>
     <div @click="getAdvice" class="background-dice">
       <div class="dice">
-        <img src="/img/icon-dice.svg" alt="dice"/>
+        <img :src="CDN('/img/icon-dice.svg')" alt="dice"/>
       </div>
     </div>
 

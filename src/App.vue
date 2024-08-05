@@ -1,32 +1,37 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@800&display=swap');
+
+/*Primary
+Light Cyan: hsl(193, 38%, 86%)
+Neon Green: hsl(150, 100%, 66%)
+Neutral
+Grayish Blue: hsl(217, 19%, 38%)
+Dark Grayish Blue: hsl(217, 19%, 24%)
+Dark Blue: hsl(218, 23%, 16%)*/
+
+:root {
+  /*Primary*/
+  --light-cyan: hsl(193, 38%, 86%);
+  --neon-green: hsl(150, 100%, 66%);
+  /*Neutral*/
+  --grayish-blue: hsl(217, 19%, 38%);
+  --dark-grayish-blue: hsl(217, 19%, 24%);
+  --dark-blue: hsl(218, 23%, 16%);
 }
 
-nav {
-  padding: 30px;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Manrope', sans-serif;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+body {
+  background-color: var(--dark-blue);
 }
 </style>

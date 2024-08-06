@@ -3,8 +3,16 @@
     <div class="advice-header">
       <p class="advice-number">ADVICE #{{ $store.getters.getSlip.id }}</p>
     </div>
-    <div class="advice-content">
-      <p class="advice-text">“{{ $store.getters.getSlip.advice }}”</p>
+    <div
+        class="advice-content"
+        ref="textContainer"
+    >
+      <p
+          ref="textContent"
+          class="advice-text"
+      >
+        “{{ text }}”
+      </p>
     </div>
 
     <div class="pattern-divider">
@@ -26,15 +34,53 @@
 <script>
 
 export default {
+  computed: {
+    text() {
+      return this.$store.getters.getSlip.advice;
+    }
+  },
   methods: {
     async getAdvice() {
       await this.$store.dispatch("getAdvice")
     },
+    adjustFontSize() {
+      const textContainer = this.$refs.textContainer;
+      const textContent = this.$refs.textContent;
+      const originalFontSize = parseFloat(window.getComputedStyle(textContent).fontSize);
+      const maxFontSize = window.innerWidth < 413 ? 24 : 28; // 24px dla urządzeń mobilnych, 28px dla komputerów
+      let fontSize = originalFontSize;
+
+      // Resetowanie do oryginalnego rozmiaru czcionki
+      textContent.style.fontSize = originalFontSize + 'px';
+
+      // Zwiększanie rozmiaru czcionki, aż tekst przestanie pasować do kontenera lub osiągnie maxFontSize
+      while (textContent.scrollHeight <= textContainer.clientHeight && fontSize < maxFontSize) {
+        fontSize += 1;
+        textContent.style.fontSize = fontSize + 'px';
+      }
+
+      // Jeśli przekroczyliśmy wysokość kontenera, zmniejszamy rozmiar czcionki, aż się zmieści
+      while (textContent.scrollHeight > textContainer.clientHeight && fontSize > 12) {
+        fontSize -= 1;
+        textContent.style.fontSize = fontSize + 'px';
+      }
+    }
+  },
+  mounted() {
+    this.adjustFontSize();
+    window.addEventListener('resize', this.adjustFontSize);
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.adjustFontSize);
+  },
+  watch: {
+    text() {
+      this.$nextTick(this.adjustFontSize);
+    }
   },
   async created() {
     await this.$store.dispatch("getAdvice")
   },
-
 }
 
 </script>
@@ -85,6 +131,7 @@ body {
   justify-content: center;
   align-items: center;
   height: calc(100% - 62px);
+  max-height: calc(100% - 62px);
 }
 
 .pattern-divider {
